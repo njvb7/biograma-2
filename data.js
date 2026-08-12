@@ -1,19 +1,18 @@
 const PRESETS = {
-  trigonometria: {
-    title: "Razones trigonométricas",
+  bc: {
+    title: "Biología celular",
     entries: [
-      { answer: "SENO", clue: "Razón entre el cateto opuesto a un ángulo agudo y la hipotenusa." },
-      { answer: "COSENO", clue: "Razón entre el cateto adyacente a un ángulo agudo y la hipotenusa." },
-      { answer: "TANGENTE", clue: "Razón entre el cateto opuesto y el cateto adyacente a un ángulo agudo." },
-      { answer: "HIPOTENUSA", clue: "Lado de mayor longitud de un triángulo rectángulo; está frente al ángulo recto." },
-      { answer: "CATETO", clue: "Cada uno de los dos lados que forman el ángulo recto." },
-      { answer: "OPUESTO", clue: "Cateto ubicado frente al ángulo agudo que se está considerando." },
-      { answer: "ADYACENTE", clue: "Cateto que forma el ángulo agudo junto con la hipotenusa." },
-      { answer: "ANGULO", clue: "Abertura formada por dos semirrectas con un origen común." },
-      { answer: "RECTANGULO", clue: "Tipo de triángulo que posee un ángulo de 90°." },
-      { answer: "RAZON", clue: "Comparación mediante un cociente entre dos cantidades." },
-      { answer: "GRADOS", clue: "Unidad habitual para medir ángulos en el nivel escolar." },
-      { answer: "TRIANGULO", clue: "Polígono de tres lados en el que se estudian estas razones." }
+      { answer: "CELULA", clue: "Unidad estructural y funcional básica de los seres vivos." },
+      { answer: "PROCARIONTE", clue: "Célula sin núcleo definido; su ADN se encuentra en el citoplasma." },
+      { answer: "EUCARIONTE", clue: "Célula que posee un núcleo delimitado por una membrana." },
+      { answer: "MEMBRANAPLASMATICA", clue: "Estructura que delimita la célula y regula el intercambio de sustancias con el medio." },
+      { answer: "CITOPLASMA", clue: "Región celular donde se encuentran los orgánulos y ocurren diversas reacciones metabólicas." },
+      { answer: "NUCLEO", clue: "Orgánulo que contiene la mayor parte del ADN en las células eucariontes." },
+      { answer: "MITOCONDRIA", clue: "Orgánulo donde ocurre principalmente la respiración celular y se produce ATP." },
+      { answer: "RIBOSOMA", clue: "Estructura encargada de sintetizar proteínas." },
+      { answer: "ADN", clue: "Molécula que almacena la información genética." },
+      { answer: "ATP", clue: "Molécula que funciona como principal fuente inmediata de energía para muchas funciones celulares." }
+    
     ]
   },
 
