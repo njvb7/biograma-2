@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Crea y resuelve crucigramas directamente en el navegador.">
-  <title>CruciLab · Creador de crucigramas</title>
+  <meta name="description" content="Biograma: crucigramas interactivos para estudiar Biología PAES.">
+  <title>Biograma · Biología PAES</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
@@ -16,8 +16,8 @@
 
   <header class="topbar container">
     <a class="brand" href="#">
-      <span class="brand__mark">#</span>
-      <span>CruciLab</span>
+      <span class="brand__mark">🧬</span>
+      <span>Biograma</span>
     </a>
     <div class="topbar__actions">
       <button id="themeBtn" class="icon-btn" title="Cambiar tema" aria-label="Cambiar tema">☀️</button>
@@ -27,52 +27,52 @@
   <main class="container">
     <section class="hero">
       <div>
-        <span class="kicker">CREA · CRUZA · RESUELVE</span>
-        <h1>Construye crucigramas<br><em>en segundos.</em></h1>
-        <p>Escribe tus conceptos y pistas, o parte desde uno de los tres ejemplos preparados. Todo funciona en tu navegador: sin cuentas, sin API y sin IA.</p>
+        <span class="kicker">ESTUDIA · CRUZA · APRENDE</span>
+        <h1>Aprende Biología<br><em>jugando.</em></h1>
+        <p>Refuerza conceptos de Biología para la PAES resolviendo crucigramas. Elige un tema, repasa sus definiciones y comprueba cuánto recuerdas.</p>
       </div>
       <div class="hero__badge">
-        <strong>100%</strong>
-        <span>local y gratuito</span>
+        <strong>PAES</strong>
+        <span>Biología</span>
       </div>
     </section>
 
     <section class="preset-section">
       <div class="section-title">
         <div>
-          <span class="kicker">EJEMPLOS LISTOS</span>
+          <span class="kicker">TEMAS LISTOS</span>
           <h2>Elige un crucigrama</h2>
         </div>
-        <p>12 términos en cada ejemplo</p>
+        <p>12 conceptos en cada tema</p>
       </div>
 
       <div class="preset-grid">
-        <button class="preset-card preset-card--math" data-preset="trigonometria">
-          <div class="preset-icon">△</div>
+        <button class="preset-card preset-card--math" data-preset="biologiaCelular">
+          <div class="preset-icon">🔬</div>
           <div>
-            <span>Matemática</span>
-            <h3>Razones trigonométricas</h3>
-            <p>Seno, coseno, tangente y elementos del triángulo rectángulo.</p>
+            <span>Biología</span>
+            <h3>Biología celular</h3>
+            <p>Célula, membrana, núcleo, mitocondria, ribosoma y conceptos fundamentales.</p>
           </div>
           <b>12</b>
         </button>
 
-        <button class="preset-card preset-card--history" data-preset="puntaArenas">
-          <div class="preset-icon">✦</div>
+        <button class="preset-card preset-card--history" data-preset="genetica">
+          <div class="preset-icon">🧬</div>
           <div>
-            <span>Historia local</span>
-            <h3>Historia de Punta Arenas</h3>
-            <p>Colonización, migraciones, patrimonio y economía magallánica.</p>
+            <span>Biología</span>
+            <h3>Genética y herencia</h3>
+            <p>ADN, genes, alelos, genotipo, fenotipo, mitosis, meiosis y variabilidad.</p>
           </div>
           <b>12</b>
         </button>
 
-        <button class="preset-card preset-card--language" data-preset="sinonimos">
-          <div class="preset-icon">Aa</div>
+        <button class="preset-card preset-card--language" data-preset="ecologia">
+          <div class="preset-icon">🌱</div>
           <div>
-            <span>Lenguaje</span>
-            <h3>Sinónimos y antónimos</h3>
-            <p>Relaciones de significado a partir de pistas breves.</p>
+            <span>Biología</span>
+            <h3>Ecología y evolución</h3>
+            <p>Población, comunidad, ecosistema, selección natural, adaptación y flujo de energía.</p>
           </div>
           <b>12</b>
         </button>
@@ -90,7 +90,7 @@
         </div>
 
         <label class="field-label" for="titleInput">Título</label>
-        <input id="titleInput" class="text-input" maxlength="70" value="Mi crucigrama">
+        <input id="titleInput" class="text-input" maxlength="70" value="Biología celular">
 
         <div class="editor-meta">
           <span>Respuesta</span>
@@ -114,8 +114,8 @@
       <section class="game panel" id="gamePanel">
         <div class="game__header">
           <div>
-            <span class="kicker">CRUCIGRAMA</span>
-            <h2 id="gameTitle">Razones trigonométricas</h2>
+            <span class="kicker">BIOGRAMA · PAES</span>
+            <h2 id="gameTitle">Biología celular</h2>
           </div>
           <div class="game__header-actions">
             <button id="printBtn" class="icon-action" title="Imprimir">🖨️ <span>Imprimir</span></button>
@@ -133,7 +133,7 @@
 
         <div class="crossword-layout">
           <div class="board-wrap">
-            <div id="crosswordBoard" class="crossword-board" aria-label="Tablero de crucigrama"></div>
+            <div id="crosswordBoard" class="crossword-board" aria-label="Tablero de crucigrama de Biología"></div>
             <p class="board-tip">Toca una casilla para seleccionar su palabra. Tócala otra vez para cambiar de dirección.</p>
           </div>
 
@@ -161,17 +161,17 @@
   </main>
 
   <footer class="footer container">
-    <span>CruciLab</span>
-    <p>Generador local de crucigramas · Tus datos no salen del navegador.</p>
+    <span>Biograma</span>
+    <p>Crucigramas de Biología PAES · Tus respuestas se procesan localmente en el navegador.</p>
   </footer>
 
   <div id="celebration" class="celebration" aria-hidden="true">
     <div class="celebration__card">
-      <div class="celebration__icon">★</div>
+      <div class="celebration__icon">🧬</div>
       <span class="kicker">¡COMPLETADO!</span>
       <h2>Crucigrama resuelto</h2>
-      <p>Encontraste todas las palabras.</p>
-      <button id="closeCelebrationBtn" class="primary-btn">Seguir</button>
+      <p>Terminaste este repaso de Biología.</p>
+      <button id="closeCelebrationBtn" class="primary-btn">Seguir estudiando</button>
     </div>
   </div>
 
