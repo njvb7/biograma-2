@@ -1,5 +1,5 @@
 const PRESETS = {
-  bc: {
+  biologiaCelular: {
     title: "Biología celular",
     entries: [
       { answer: "CELULA", clue: "Unidad estructural y funcional básica de los seres vivos." },
@@ -11,44 +11,45 @@ const PRESETS = {
       { answer: "MITOCONDRIA", clue: "Orgánulo donde ocurre principalmente la respiración celular y se produce ATP." },
       { answer: "RIBOSOMA", clue: "Estructura encargada de sintetizar proteínas." },
       { answer: "ADN", clue: "Molécula que almacena la información genética." },
-      { answer: "ATP", clue: "Molécula que funciona como principal fuente inmediata de energía para muchas funciones celulares." }
-    
+      { answer: "ATP", clue: "Molécula que funciona como principal fuente inmediata de energía para muchas funciones celulares." },
+      { answer: "DIFUSION", clue: "Movimiento neto de partículas desde una zona de mayor concentración hacia una de menor concentración." },
+      { answer: "OSMOSIS", clue: "Movimiento de agua a través de una membrana semipermeable debido a diferencias en la concentración de solutos." }
     ]
   },
 
-  puntaArenas: {
-    title: "Historia de Punta Arenas",
+  genetica: {
+    title: "Genética y herencia",
     entries: [
-      { answer: "PUNTA ARENAS", clue: "Ciudad que se consolidó como principal asentamiento chileno en el estrecho tras el traslado de la colonia desde Fuerte Bulnes." },
-      { answer: "FUERTE BULNES", clue: "Asentamiento fundado en 1843 para afianzar la soberanía chilena en el extremo austral." },
-      { answer: "MAGALLANES", clue: "Nombre del estrecho y de la región cuya colonización impulsó el crecimiento de Punta Arenas." },
-      { answer: "ESTRECHO", clue: "Paso marítimo junto al cual se desarrolló Punta Arenas y que conecta los océanos Atlántico y Pacífico." },
-      { answer: "CROATAS", clue: "Grupo de inmigrantes cuya llegada a Magallanes aumentó especialmente a comienzos del siglo XX." },
-      { answer: "INMIGRANTES", clue: "Personas provenientes de distintos países europeos que contribuyeron fuertemente al crecimiento de la ciudad." },
-      { answer: "GANADERIA", clue: "Actividad económica vinculada especialmente a la crianza ovina que impulsó la economía magallánica." },
-      { answer: "ORO", clue: "Recurso cuyo hallazgo a fines de la década de 1860 estimuló nuevas migraciones hacia Magallanes." },
-      { answer: "SOBERANIA", clue: "Objetivo político que motivó la ocupación chilena del estrecho durante el siglo XIX." },
-      { answer: "COLONIZACION", clue: "Proceso iniciado por el Estado chileno en Magallanes a partir de 1843." },
-      { answer: "SARA BRAUN", clue: "Nombre asociado a un destacado palacio y al cementerio histórico de Punta Arenas." },
-      { answer: "PALACIO", clue: "Tipo de inmueble patrimonial asociado a las familias Braun y Menéndez en el centro histórico de la ciudad." }
+      { answer: "GEN", clue: "Segmento de ADN que contiene información relacionada con una característica o función biológica." },
+      { answer: "ALELO", clue: "Variante de un gen." },
+      { answer: "GENOTIPO", clue: "Conjunto de alelos que posee un individuo." },
+      { answer: "FENOTIPO", clue: "Características observables de un organismo, resultado de la interacción entre genotipo y ambiente." },
+      { answer: "HOMOCIGOTO", clue: "Individuo que posee dos alelos iguales para un gen." },
+      { answer: "HETEROCIGOTO", clue: "Individuo que posee dos alelos diferentes para un gen." },
+      { answer: "MUTACION", clue: "Cambio en la secuencia del ADN." },
+      { answer: "CROMOSOMA", clue: "Estructura formada por ADN asociado a proteínas que contiene material genético." },
+      { answer: "MITOSIS", clue: "División celular que produce dos células hijas genéticamente muy similares a la célula original." },
+      { answer: "MEIOSIS", clue: "División celular que produce células haploides y contribuye a la variabilidad genética." },
+      { answer: "TRANSCRIPCION", clue: "Proceso mediante el cual se utiliza ADN como molde para producir ARN." },
+      { answer: "TRADUCCION", clue: "Proceso mediante el cual el ribosoma utiliza el ARNm para formar una cadena de aminoácidos." }
     ]
   },
 
-  sinonimos: {
-    title: "Sinónimos y antónimos",
+  ecologia: {
+    title: "Ecología y evolución",
     entries: [
-      { answer: "ALEGRE", clue: "Sinónimo de feliz." },
-      { answer: "RAPIDO", clue: "Antónimo de lento." },
-      { answer: "COMENZAR", clue: "Sinónimo de iniciar." },
-      { answer: "OSCURO", clue: "Antónimo de claro." },
-      { answer: "VALIENTE", clue: "Sinónimo de valeroso." },
-      { answer: "ABUNDANTE", clue: "Antónimo de escaso." },
-      { answer: "HERMOSO", clue: "Sinónimo de bello." },
-      { answer: "CERCANO", clue: "Antónimo de lejano." },
-      { answer: "FINALIZAR", clue: "Sinónimo de terminar." },
-      { answer: "DEBIL", clue: "Antónimo de fuerte." },
-      { answer: "SILENCIOSO", clue: "Sinónimo de callado." },
-      { answer: "GENEROSO", clue: "Antónimo de egoísta." }
+      { answer: "ECOSISTEMA", clue: "Conjunto de seres vivos y factores abióticos que interactúan en un lugar determinado." },
+      { answer: "POBLACION", clue: "Individuos de una misma especie que habitan una zona determinada." },
+      { answer: "COMUNIDAD", clue: "Conjunto de poblaciones de diferentes especies que interactúan." },
+      { answer: "BIOTICO", clue: "Componente vivo de un ecosistema." },
+      { answer: "ABIOTICO", clue: "Componente no vivo de un ecosistema, como temperatura, luz, agua o pH." },
+      { answer: "HABITAT", clue: "Lugar donde vive un organismo." },
+      { answer: "NICHO", clue: "Papel que desempeña una especie dentro de su ecosistema." },
+      { answer: "PRODUCTOR", clue: "Organismo que produce materia orgánica a partir de sustancias inorgánicas, generalmente mediante fotosíntesis." },
+      { answer: "CONSUMIDOR", clue: "Organismo que obtiene materia y energía alimentándose de otros organismos." },
+      { answer: "DESCOMPONEDOR", clue: "Organismo que degrada materia orgánica y contribuye al reciclaje de nutrientes." },
+      { answer: "ADAPTACION", clue: "Característica heredable que aumenta la aptitud de un organismo en un ambiente determinado." },
+      { answer: "SELECCIONNATURAL", clue: "Proceso por el cual ciertas características heredables aumentan su frecuencia porque favorecen la supervivencia o reproducción en un ambiente determinado." }
     ]
   }
 };
