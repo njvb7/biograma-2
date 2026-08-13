@@ -222,11 +222,22 @@ button { cursor: pointer; }
 }
 
 .workspace {
-  display:column;
-  grid-template-columns:360px 1fr;
+  display:flex;
+  flex-direction:column;
   gap:20px;
-  align-items:start;
   margin:72px 0 48px;
+}
+
+.game {
+  order:1;
+}
+
+.builder {
+  order:2;
+  position:relative;
+  top:auto;
+  max-height:none;
+  overflow:visible;
 }
 
 .panel {
@@ -590,8 +601,32 @@ button { cursor: pointer; }
 .celebration__card p { color:var(--muted); margin:0 0 22px; }
 
 @media (max-width: 1040px) {
-  .workspace { grid-template-columns:1fr; }
-  .builder { position:relative; top:auto; max-height:none; }
+  
+  .workspace {
+    display:flex;
+    flex-direction:column;
+  }
+
+  .game {
+    order:1;
+  }
+
+  .builder {
+    order:2;
+    position:relative;
+    top:auto;
+    max-height:none;
+  }
+
+  .crossword-layout {
+    grid-template-columns:1fr;
+  }
+
+  .clues {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    max-height:none;
+  }
   .crossword-layout { grid-template-columns:1fr; }
   .clues { display:grid; grid-template-columns:1fr 1fr; max-height:none; }
 }
