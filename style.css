@@ -122,7 +122,7 @@ button { cursor: pointer; }
 
 .hero h1 em {
   font-style:normal;
-  color:#75a35b(--accent-2);
+  color:#32a852(--accent-2);
 }
 
 .hero p {
