@@ -222,7 +222,7 @@ button { cursor: pointer; }
 }
 
 .workspace {
-  display:grid;
+  display:column;
   grid-template-columns:360px 1fr;
   gap:20px;
   align-items:start;
