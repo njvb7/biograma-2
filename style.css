@@ -439,7 +439,7 @@ button { cursor: pointer; }
   background:var(--surface-2);
   border:1px solid var(--line);
   border-radius:18px;
-  overflow:auto;
+  overflow:hidden;
 }
 
 .crossword-cell {
