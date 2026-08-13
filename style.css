@@ -250,10 +250,10 @@ button { cursor: pointer; }
 
 .builder {
   padding:22px;
-  position:sticky;
-  top:16px;
-  max-height:calc(100vh - 32px);
-  overflow:auto;
+  position:relative;
+  top:auto;
+  max-height:none;
+  overflow:visible;
 }
 
 .panel__header, .game__header {

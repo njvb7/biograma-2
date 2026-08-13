@@ -465,4 +465,4 @@ if (localStorage.getItem("crucilab-theme") === "light") {
   document.getElementById("themeBtn").textContent = "🌙";
 }
 
-loadPreset("trigonometria");
+loadPreset("biologiaCelular");

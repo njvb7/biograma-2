@@ -19,13 +19,18 @@
     return copy;
   }
 
-  function canPlace(word, row, col, dir, grid, requireCross) {
+  // A valid crossword placement must:
+  // 1. fit every existing crossing with the same letter;
+  // 2. cross at least one existing word (except the first word);
+  // 3. never touch another letter side-by-side without crossing;
+  // 4. never overlap a word in the same direction.
+  function canPlace(word, row, col, dir, grid, requireCross = true) {
     const dr = dir === "V" ? 1 : 0;
     const dc = dir === "H" ? 1 : 0;
 
-    const before = grid.get(key(row - dr, col - dc));
-    const after = grid.get(key(row + dr * word.length, col + dc * word.length));
-    if (before || after) return null;
+    // The cells immediately before and after the word must be empty.
+    if (grid.has(key(row - dr, col - dc))) return null;
+    if (grid.has(key(row + dr * word.length, col + dc * word.length))) return null;
 
     let crossings = 0;
 
@@ -38,12 +43,14 @@
         if (current.char !== word[i]) return null;
         if (current.dirs.has(dir)) return null;
         crossings++;
+        continue;
+      }
+
+      // Empty cells cannot touch another word on the sides.
+      if (dir === "H") {
+        if (grid.has(key(r - 1, c)) || grid.has(key(r + 1, c))) return null;
       } else {
-        if (dir === "H") {
-          if (grid.get(key(r - 1, c)) || grid.get(key(r + 1, c))) return null;
-        } else {
-          if (grid.get(key(r, c - 1)) || grid.get(key(r, c + 1))) return null;
-        }
+        if (grid.has(key(r, c - 1)) || grid.has(key(r, c + 1))) return null;
       }
     }
 
@@ -80,11 +87,17 @@
       maxR = Math.max(maxR, p.row, endR);
       maxC = Math.max(maxC, p.col, endC);
     }
-    return { minR, minC, maxR, maxC, width: maxC - minC + 1, height: maxR - minR + 1 };
+
+    return {
+      minR, minC, maxR, maxC,
+      width: maxC - minC + 1,
+      height: maxR - minR + 1
+    };
   }
 
   function candidatePositions(word, grid, placements) {
     const cellsByChar = new Map();
+
     for (const [k, cell] of grid.entries()) {
       if (!cellsByChar.has(cell.char)) cellsByChar.set(cell.char, []);
       const [r, c] = k.split(",").map(Number);
@@ -96,11 +109,13 @@
 
     for (let i = 0; i < word.length; i++) {
       const matches = cellsByChar.get(word[i]) || [];
+
       for (const match of matches) {
         for (const dir of ["H", "V"]) {
           const row = match.r - (dir === "V" ? i : 0);
           const col = match.c - (dir === "H" ? i : 0);
           const sig = `${row},${col},${dir}`;
+
           if (seen.has(sig)) continue;
           seen.add(sig);
 
@@ -111,8 +126,19 @@
           const b = boundsFromPlacements(prospective);
           const area = b.width * b.height;
           const squareness = Math.abs(b.width - b.height);
-          const score = valid.crossings * 120 - area * 0.25 - squareness * 1.4 + Math.random() * 8;
-          candidates.push({ row, col, dir, score, crossings: valid.crossings });
+
+          // Prefer many real crossings and a compact, reasonably square board.
+          const score =
+            valid.crossings * 1000 -
+            area * 1.2 -
+            squareness * 5 +
+            Math.random() * 15;
+
+          candidates.push({
+            row, col, dir,
+            score,
+            crossings: valid.crossings
+          });
         }
       }
     }
@@ -121,57 +147,105 @@
     return candidates;
   }
 
+  function searchAll(words, initialGrid, initialPlacements, maxNodes = 25000) {
+    let nodes = 0;
+
+    function dfs(pending, grid, placements) {
+      nodes++;
+      if (nodes > maxNodes) return null;
+      if (!pending.length) return { grid, placements };
+
+      // Minimum Remaining Values: choose the word with the fewest
+      // legal crossings first. This dramatically reduces dead ends.
+      let selectedIndex = -1;
+      let selectedCandidates = null;
+
+      for (let i = 0; i < pending.length; i++) {
+        const candidates = candidatePositions(pending[i].word, grid, placements);
+
+        if (!candidates.length) return null;
+
+        if (
+          selectedCandidates === null ||
+          candidates.length < selectedCandidates.length ||
+          (candidates.length === selectedCandidates.length &&
+            pending[i].word.length > pending[selectedIndex].word.length)
+        ) {
+          selectedIndex = i;
+          selectedCandidates = candidates;
+        }
+      }
+
+      const entry = pending[selectedIndex];
+      const rest = pending.filter((_, i) => i !== selectedIndex);
+
+      // Try the best candidates first, but keep several alternatives
+      // so the generator can recover from a bad early crossing.
+      const limit = Math.min(selectedCandidates.length, 32);
+
+      for (let i = 0; i < limit; i++) {
+        const candidate = selectedCandidates[i];
+        const nextGrid = cloneGrid(grid);
+        const nextPlacements = placements.slice();
+
+        place(entry.word, candidate.row, candidate.col, candidate.dir, nextGrid);
+        nextPlacements.push({ ...entry, ...candidate });
+
+        const result = dfs(rest, nextGrid, nextPlacements);
+        if (result) return result;
+      }
+
+      return null;
+    }
+
+    return dfs(words, initialGrid, initialPlacements);
+  }
+
   function attempt(entries) {
-    const grid = new Map();
-    const placements = [];
     const sorted = entries
       .map(e => ({ ...e, word: normalizeAnswer(e.answer) }))
       .filter(e => e.word.length >= 2)
-      .sort((a, b) => b.word.length - a.word.length + (Math.random() - .5) * 2);
+      .sort((a, b) => b.word.length - a.word.length);
 
     if (!sorted.length) return null;
 
-    const seedPool = sorted.slice(0, Math.min(4, sorted.length));
-    const seed = seedPool[Math.floor(Math.random() * seedPool.length)];
+    // Long words make a stable backbone. Try different seeds across attempts.
+    const seed = sorted[Math.floor(Math.random() * Math.min(sorted.length, 4))];
     const remaining = sorted.filter(e => e !== seed);
 
+    const grid = new Map();
+    const placements = [];
+
     place(seed.word, 0, 0, "H", grid);
-    placements.push({ ...seed, row: 0, col: 0, dir: "H", crossings: 0 });
+    placements.push({
+      ...seed,
+      row: 0,
+      col: 0,
+      dir: "H",
+      crossings: 0
+    });
 
-    let pending = remaining.slice();
-    let changed = true;
+    const result = searchAll(remaining, grid, placements, 30000);
+    if (!result) return null;
 
-    while (pending.length && changed) {
-      changed = false;
-      pending.sort((a, b) => {
-        const ca = candidatePositions(a.word, grid, placements).length;
-        const cb = candidatePositions(b.word, grid, placements).length;
-        if (ca === 0 && cb > 0) return 1;
-        if (cb === 0 && ca > 0) return -1;
-        return b.word.length - a.word.length;
-      });
+    const b = boundsFromPlacements(result.placements);
+    const totalCrossings = result.placements.reduce(
+      (sum, p) => sum + (p.crossings || 0), 0
+    );
 
-      const nextPending = [];
-      for (const entry of pending) {
-        const candidates = candidatePositions(entry.word, grid, placements);
-        if (!candidates.length) {
-          nextPending.push(entry);
-          continue;
-        }
-        const pickFrom = candidates.slice(0, Math.min(4, candidates.length));
-        const chosen = pickFrom[Math.floor(Math.random() * pickFrom.length)];
-        place(entry.word, chosen.row, chosen.col, chosen.dir, grid);
-        placements.push({ ...entry, ...chosen });
-        changed = true;
-      }
-      pending = nextPending;
-    }
+    const score =
+      result.placements.length * 100000 +
+      totalCrossings * 1000 -
+      b.width * b.height * 2 -
+      Math.abs(b.width - b.height) * 10;
 
-    const b = boundsFromPlacements(placements);
-    const totalCrossings = placements.reduce((sum, p) => sum + (p.crossings || 0), 0);
-    const score = placements.length * 10000 + totalCrossings * 120 - b.width * b.height - Math.abs(b.width - b.height) * 8;
-
-    return { grid, placements, unplaced: pending, bounds: b, score };
+    return {
+      grid: result.grid,
+      placements: result.placements,
+      unplaced: [],
+      bounds: b,
+      score
+    };
   }
 
   function finalize(best, totalEntries) {
@@ -186,6 +260,7 @@
     }));
 
     const finalGrid = new Map();
+
     for (const [k, cell] of grid.entries()) {
       const [r, c] = k.split(",").map(Number);
       finalGrid.set(key(r + shiftR, c + shiftC), {
@@ -194,7 +269,9 @@
       });
     }
 
+    // A crossword number belongs to every word that starts in the same cell.
     const starts = new Map();
+
     for (const p of finalPlacements) {
       const k = key(p.row, p.col);
       if (!starts.has(k)) starts.set(k, []);
@@ -206,15 +283,17 @@
         const [r, c] = k.split(",").map(Number);
         return { k, r, c };
       })
-      .sort((a,b) => a.r - b.r || a.c - b.c);
+      .sort((a, b) => a.r - b.r || a.c - b.c);
 
     const numberMap = new Map();
-    numberedStarts.forEach((item, index) => numberMap.set(item.k, index + 1));
+    numberedStarts.forEach((item, index) => {
+      numberMap.set(item.k, index + 1);
+    });
 
     finalPlacements.forEach((p, index) => {
       p.id = `word-${index}`;
       p.number = numberMap.get(key(p.row, p.col));
-      p.cells = Array.from({length:p.word.length}, (_, i) => ({
+      p.cells = Array.from({ length: p.word.length }, (_, i) => ({
         row: p.row + (p.dir === "V" ? i : 0),
         col: p.col + (p.dir === "H" ? i : 0)
       }));
@@ -232,24 +311,35 @@
   }
 
   function generate(entries, options = {}) {
-    const valid = entries.filter(e => normalizeAnswer(e.answer).length >= 2 && (e.clue || "").trim());
+    const valid = entries
+      .filter(e => normalizeAnswer(e.answer).length >= 2 && (e.clue || "").trim());
+
     if (valid.length < 2) {
       return { error: "Necesitas al menos dos términos con pista." };
     }
 
-    const attempts = options.attempts || 700;
+    const attempts = options.attempts || 30;
     let best = null;
 
     for (let i = 0; i < attempts; i++) {
       const result = attempt(valid);
       if (!result) continue;
+
       if (!best || result.score > best.score) best = result;
-      if (result.placements.length === valid.length && result.bounds.width <= 24 && result.bounds.height <= 24) {
-        if (i > 80) break;
+
+      // If every term is placed, we already have a complete crossword.
+      if (result.placements.length === valid.length) {
+        // Keep searching a little to find a more compact/connected layout.
+        if (i >= Math.min(8, attempts - 1)) break;
       }
     }
 
-    if (!best) return { error: "No fue posible construir el crucigrama." };
+    if (!best) {
+      return {
+        error: "No fue posible formar un crucigrama válido con estas palabras. Prueba con términos que compartan algunas letras."
+      };
+    }
+
     return finalize(best, valid.length);
   }
 
