@@ -11,9 +11,7 @@ const PRESETS = {
       { answer: "MITOCONDRIA", clue: "Orgánulo donde ocurre principalmente la respiración celular y se produce ATP." },
       { answer: "RIBOSOMA", clue: "Estructura encargada de sintetizar proteínas." },
       { answer: "ADN", clue: "Molécula que almacena la información genética." },
-      { answer: "ATP", clue: "Molécula que funciona como principal fuente inmediata de energía para muchas funciones celulares." },
-      { answer: "DIFUSION", clue: "Movimiento neto de partículas desde una zona de mayor concentración hacia una de menor concentración." },
-      { answer: "OSMOSIS", clue: "Movimiento de agua a través de una membrana semipermeable debido a diferencias en la concentración de solutos." }
+      { answer: "ATP", clue: "Molécula que funciona como principal fuente inmediata de energía para muchas funciones celulares." }
     ]
   },
 
@@ -29,9 +27,7 @@ const PRESETS = {
       { answer: "MUTACION", clue: "Cambio en la secuencia del ADN." },
       { answer: "CROMOSOMA", clue: "Estructura formada por ADN asociado a proteínas que contiene material genético." },
       { answer: "MITOSIS", clue: "División celular que produce dos células hijas genéticamente muy similares a la célula original." },
-      { answer: "MEIOSIS", clue: "División celular que produce células haploides y contribuye a la variabilidad genética." },
-      { answer: "TRANSCRIPCION", clue: "Proceso mediante el cual se utiliza ADN como molde para producir ARN." },
-      { answer: "TRADUCCION", clue: "Proceso mediante el cual el ribosoma utiliza el ARNm para formar una cadena de aminoácidos." }
+      { answer: "MEIOSIS", clue: "División celular que produce células haploides y contribuye a la variabilidad genética." }
     ]
   },
 
